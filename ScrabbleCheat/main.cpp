@@ -139,7 +139,7 @@ void printTable(vector<vector<char> > Table) {
 }
 
 bool isUserTurn() {
-    cout << "Input letter u if user turn: ";
+    cout << "Input letter u for user input or any other letter to run on current board: ";
     char userIn;
     cin >> userIn;
     if(userIn == 'u') return true;
@@ -159,18 +159,44 @@ void enterMoves(vector<vector<char> > *Table) {
         if(col >= 32) {
             col -= 32;
         }
-        cout << "\nEnter letter in this square:";
-        char tempHolder = ' ';
-        cin >> tempHolder;
-        if(tempHolder < 97) {
-            tempHolder += 32;
+        cout << "\nEnter Direction '>' for right '<' for down:";
+        char dir = ' ';
+        cin >> dir;
+        cout << "\nEnter Word: ";
+        string word = "";
+        cin >> word;
+        for(int i = 0; i < word.length(); i++) {
+            char tempHolder = word[i];
+            if(tempHolder < 97) {
+                tempHolder += 32;
+            }
+            if(dir == '>') {
+                (*Table)[row][col+i] = tempHolder;
+                lastInstance[tempHolder] = vector<int>(row,col+i);
+            }else {
+                (*Table)[row+i][col] = tempHolder;
+                lastInstance[tempHolder] = vector<int>(row+i,col);
+            }
+            
         }
-        (*Table)[row][col] = tempHolder;
-        lastInstance[tempHolder] = vector<int>(row,col);
+        
         cout <<"\n";
         printTable(*Table);
     }
     cout << "Done inputing characters.\n";
+    cout << "Would you like to save? (enter file name including .txt or n): ";
+    string name = "";
+    cin >> name;
+    if(name == "n") {
+        return;
+    }
+    ofstream MyFile(name);
+    for(int i = 0; i < 15; i++) {
+        for(int j = 0; j < 15; j++) {
+            MyFile << (*Table)[i][j];
+        }
+    }
+    cout <<"\n";
 }
 
 vector<char> getHand() {
@@ -398,8 +424,8 @@ bool checkCollisions(unordered_map<string, int> Dictionary, string * word, vecto
     int origWordCount = (int) (*word).length();
     int firstStop = 1000;
     for(char c : *word) {
-        if(lettersWeHaveRight[c] == 0 && lastInstance[c][0] * 15 + lastInstance[c][1] < firstStop) {
-            firstStop = lastInstance[c][0] * 15 + lastInstance[c][1];
+        if(lettersWeHaveRight[c] == 0 && lastInstance[c].size() * 15 + lastInstance[c][0] < firstStop) {
+            firstStop = (int)lastInstance[c].size() * 15 + lastInstance[c][0];
         }
     }
     for(int i = *row; i < 15; i++) {
@@ -796,7 +822,7 @@ int main(int argc, const char * argv[]) {
         }
          
     }
-    cout << "Hello, Maxwell!\n";
+    cout << "Hello!\n";
     cout << "Loaded in dictionary of size: " << Dictionary.size() << "\n";
     
     vector<vector<char> > Table = setupTable();
