@@ -508,7 +508,7 @@ vector<string> getPlayableWords(unordered_map<string, int> Dictionary, vector<ve
             lessDash--;
         }
         if(countOfWords % 400 == 0) {
-            cout << "\n" << lineCounter << ": ";
+            cout << word << "\n" << lineCounter << ": ";
             lineCounter++;
         }
         while(checkCollisions(Dictionary, &word, Table, hand, &wordLocations, &row, &col)) {
