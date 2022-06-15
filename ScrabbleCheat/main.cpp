@@ -211,7 +211,7 @@ vector<char> getHand() {
 }
 
 bool isLetter(char c) {
-    if(c != ' ' && c != '!' && c != '@' && c != '$' && c != '&' && c != '+') {
+    if(c == 'a' || c == 'b' || c == 'c' || c == 'd'|| c == 'e'|| c == 'f'|| c == 'g'|| c == 'h'|| c == 'i'|| c == 'j'|| c == 'k'|| c == 'l'|| c == 'm'|| c == 'n'|| c == 'o'|| c == 'p'|| c == 'q'|| c == 'r'|| c == 's'|| c == 't'|| c == 'u'|| c == 'v'|| c == 'w'|| c == 'x'|| c == 'y'|| c == 'z') {
         return true;
     }
     return false;
@@ -288,7 +288,7 @@ bool isWordValid(unordered_map<string, int> Dictionary, string word, vector<vect
             while(rowTemp > 0 && isLetter(Table[rowTemp-1][col+i])) {
                 rowTemp--;
             }
-            while(rowTemp < 14 && (isLetter(Table[rowTemp+1][col+i] || rowTemp + 1 == row))) {
+            while(rowTemp < 14 && (isLetter(Table[rowTemp+1][col+i]) || rowTemp + 1 == row)) {
                 if(rowTemp == row) {
                     needsCheck += word[i];
                 }else {
@@ -352,7 +352,7 @@ bool isWordValid(unordered_map<string, int> Dictionary, string word, vector<vect
             while(colTemp > 0 && isLetter(Table[row + i][colTemp-1])) {
                 colTemp--;
             }
-            while(colTemp < 14 && (isLetter(Table[row + i][colTemp + 1] || colTemp + 1 == col))) {
+            while(colTemp < 14 && (isLetter(Table[row + i][colTemp + 1]) || colTemp + 1 == col)) {
                 if(colTemp == col) {
                     needsCheck += word[i];
                 }else {
@@ -444,7 +444,7 @@ bool checkCollisions(unordered_map<string, int> Dictionary, string * word, vecto
                 if(i+k > 14) {
                     tooLongLeft = true;
                 }else if(isLetter(Table[i+k][j])) {
-                    lettersWeHaveLeft[Table[i][j]]++;
+                    lettersWeHaveLeft[Table[i+k][j]]++;
                 }
                 if(tooLongRight && tooLongLeft) {
                     return false;
@@ -492,6 +492,9 @@ vector<string> getPlayableWords(unordered_map<string, int> Dictionary, vector<ve
     
     vector<string> validWords;
     set<string> anagrams = getAnagrams(Dictionary, Table, hand);
+    //to test a set string uncomment the following 2 lines
+    //set<string> anagrams;
+    //anagrams.insert("wedgy");
     cout << anagrams.size() << " anagrams found, checking for valid words.\nThis may take awhile...\n0: ";
     
     int countOfWords = 1;
