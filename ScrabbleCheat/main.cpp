@@ -479,7 +479,7 @@ bool checkCollisions(unordered_map<string, int> Dictionary, string * word, vecto
                     lettersWeHaveRight[Table[i][j+k]]--;
                 }
                 if(i+k <= 14 && isLetter(Table[i+k][j])) {
-                    lettersWeHaveLeft[Table[i][j]]--;
+                    lettersWeHaveLeft[Table[i+k][j]]--;
                 }
             }
         }
