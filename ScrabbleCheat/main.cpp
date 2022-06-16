@@ -492,9 +492,9 @@ vector<string> getPlayableWords(unordered_map<string, int> Dictionary, vector<ve
     
     vector<string> validWords;
     set<string> anagrams = getAnagrams(Dictionary, Table, hand);
-    //to test a set string uncomment the following 2 lines
+    //to test a set string uncomment the following 2 lines and comment line above.
     //set<string> anagrams;
-    //anagrams.insert("wedgy");
+    //anagrams.insert("didie");
     cout << anagrams.size() << " anagrams found, checking for valid words.\nThis may take awhile...\n0: ";
     
     int countOfWords = 1;
@@ -521,7 +521,7 @@ vector<string> getPlayableWords(unordered_map<string, int> Dictionary, vector<ve
             cout << ".";
             lessDash++;
         }
-        if(countOfWords % (anagrams.size() / 10) == 0) {
+        if(anagrams.size() >= 10 && countOfWords % (anagrams.size() / 10) == 0) {
             cout << "\nHave checked " << countOfWords << " anagrams and have found " << validWords.size() << " valid words...\n";
             lineCounter = 0;
         }
@@ -754,7 +754,7 @@ int points(string word, vector<vector<char> > Table, vector<char> hand) {
             
             pointCount += letterVals[realWord[i]] * letMult;
             if(doubleCount) {
-                pointCount += letterVals[realWord[i]] * letMult;
+                addPointCount += letterVals[realWord[i]] * letMult;
             }
         }
         pointCount *= multiplier;
@@ -792,7 +792,8 @@ void givePossibilities(unordered_map<string, int> Dictionary, vector<vector<char
     
     vector<char> hand = getHand();
     vector<string> playableWords = getPlayableWords(Dictionary, Table, hand);
-    
+    //vector<string> playableWords;
+    //playableWords.push_back("didie08A<");
     string winningWord = "";
     string secondWord = "";
     int count = 0;
