@@ -794,11 +794,13 @@ void givePossibilities(unordered_map<string, int> Dictionary, vector<vector<char
     vector<string> playableWords = getPlayableWords(Dictionary, Table, hand);
     
     string winningWord = "";
+    string secondWord = "";
     int count = 0;
     cout << "Calculating word worth most points...\n";
     for(string word : playableWords) {
-         int tp = points(word, Table, hand);
-         if(tp > count) {
+        int tp = points(word, Table, hand);
+        if(tp > count) {
+            secondWord = winningWord;
             count = tp;
             winningWord = word;
         }
@@ -807,6 +809,12 @@ void givePossibilities(unordered_map<string, int> Dictionary, vector<vector<char
     printTable(Table);
     cout << "You should play: " << winningWord.substr(0, winningWord.length()-4) << " at "<< winningWord.substr(winningWord.length()-4, winningWord.length()) << "\n";
     cout << "For " << count << " points!\n";
+    cout << "You can try " << secondWord.substr(0, secondWord.length()-4) << " at "<< secondWord.substr(secondWord.length()-4, secondWord.length()) << " if that doesn't work\n";
+    string name = "results.txt";
+    ofstream MyFile(name);
+    MyFile << "You should play: " << winningWord.substr(0, winningWord.length()-4) << " at "<< winningWord.substr(winningWord.length()-4, winningWord.length()) << "\n";
+    MyFile << "For " << count << " points!\n";
+    MyFile << "You can try " << secondWord.substr(0, secondWord.length()-4) << " at "<< secondWord.substr(secondWord.length()-4, secondWord.length()) << " if that doesn't work\n";
     
 }
 
