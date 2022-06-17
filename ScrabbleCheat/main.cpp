@@ -24,6 +24,9 @@ using namespace std;
 unordered_map<char, vector<int> > lastInstance;
 
 vector<vector<char> > setupTable() {
+    for(char c = 'a'; c <= 'z'; c++) {
+        lastInstance[c] = {14,14};
+    }
     cout << "Load previous game? (y/n): ";
     char load;
     cin >> load;
@@ -115,7 +118,7 @@ vector<vector<char> > setupTable() {
         for(int i = 0; i < 15; i++) {
             for(int j = 0; j < 15; j++) {
                 Table[i][j] = letters[i*15 + j];
-                lastInstance[letters[i*15 + j]] = vector<int>(i,j);
+                lastInstance[letters[i*15 + j]] = {i,j};
             }
         }
     }
@@ -172,10 +175,10 @@ void enterMoves(vector<vector<char> > *Table) {
             }
             if(dir == '>') {
                 (*Table)[row][col+i] = tempHolder;
-                lastInstance[tempHolder] = vector<int>(row,col+i);
+                lastInstance[tempHolder] = {row,col+i};
             }else {
                 (*Table)[row+i][col] = tempHolder;
-                lastInstance[tempHolder] = vector<int>(row+i,col);
+                lastInstance[tempHolder] = {row+i,col};
             }
             
         }
@@ -424,8 +427,8 @@ bool checkCollisions(unordered_map<string, int> Dictionary, string * word, vecto
     int origWordCount = (int) (*word).length();
     int firstStop = 1000;
     for(char c : *word) {
-        if(lettersWeHaveRight[c] == 0 && lastInstance[c].size() * 15 + lastInstance[c][0] < firstStop) {
-            firstStop = (int)lastInstance[c].size() * 15 + lastInstance[c][0];
+        if(lettersWeHaveRight[c] == 0 && lastInstance[c][0] * 15 + lastInstance[c][1] < firstStop) {
+            firstStop = (int)lastInstance[c][0] * 15 + lastInstance[c][1];
         }
     }
     for(int i = *row; i < 15; i++) {
