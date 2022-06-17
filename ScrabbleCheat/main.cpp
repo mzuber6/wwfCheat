@@ -253,6 +253,23 @@ set<string> getAnagrams(unordered_map<string, int> Dictionary, vector<vector<cha
         handMap[c]++;
         count++;
     }
+    vector<unordered_map<char, int> > rowMapList;
+    vector<unordered_map<char, int> > colMapList;
+    
+    for(int i = 0; i < 15; i++) {
+        unordered_map<char, int> row;
+        rowMapList.push_back(row);
+        for(int j = 0; j < 15; j++) {
+            if(i == 0) {
+                unordered_map<char, int> col;
+                colMapList.push_back(col);
+            }
+            colMapList[j][Table[i][j]]++;
+            rowMapList[i][Table[i][j]]++;
+            
+        }
+    }
+    
     for(vector<char> row : Table) {
         for(char c : row) {
             if(isLetter(c)) {
@@ -265,7 +282,12 @@ set<string> getAnagrams(unordered_map<string, int> Dictionary, vector<vector<cha
     
     for(auto i = Dictionary.begin(); i != Dictionary.end(); i++) {
         if(isAnagram(i->first, tableMap, handMap, count)) {
-            anagrams.insert(i->first);
+            for(int j = 0; j < 15; j++) {
+                if(isAnagram(i->first, rowMapList[j], handMap, 15) || isAnagram(i->first, colMapList[j], handMap, 15)) {
+                    anagrams.insert(i->first);
+                }
+            }
+            
         }
     }
     
@@ -274,6 +296,7 @@ set<string> getAnagrams(unordered_map<string, int> Dictionary, vector<vector<cha
 
 bool isWordValid(unordered_map<string, int> Dictionary, string word, vector<vector<char> > Table, int row, int col, bool right) {
     bool touchesTable = false;
+    bool usesHand = false;
     if(right) {
         if(word.length() + col > 14) {
             return false;
@@ -284,6 +307,8 @@ bool isWordValid(unordered_map<string, int> Dictionary, string word, vector<vect
                     return false;
                 }
                 touchesTable = true;
+            }else {
+                usesHand = true;
             }
             //move as high up and then go down, if length > 1 check validity
             string needsCheck = "";
@@ -348,6 +373,8 @@ bool isWordValid(unordered_map<string, int> Dictionary, string word, vector<vect
                     return false;
                 }
                 touchesTable = true;
+            }else {
+                usesHand = true;
             }
             //move as far left and then go right, if length > 1 check validity
             string needsCheck = "";
@@ -402,7 +429,7 @@ bool isWordValid(unordered_map<string, int> Dictionary, string word, vector<vect
     }
     
     //check all touching words
-    if(!touchesTable) return false;
+    if(!touchesTable || !usesHand) return false;
     return true;
 }
 
@@ -862,6 +889,8 @@ int main(int argc, const char * argv[]) {
         }
     }
     cout <<"\n";
+    
+    MyFile.close();
     return 0;
 }
 
