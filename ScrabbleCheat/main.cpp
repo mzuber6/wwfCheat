@@ -700,7 +700,9 @@ int points(string word, vector<vector<char> > Table, vector<char> hand) {
                     count--;
                 }
             }
-            pointCount += 35;
+            if(count == 0) {
+                pointCount += 35;
+            }
         }
     }else {
         int multiplier = 1;
@@ -796,7 +798,10 @@ int points(string word, vector<vector<char> > Table, vector<char> hand) {
                     count--;
                 }
             }
-            pointCount += 35;
+            if(count == 0) {
+                pointCount += 35;
+            }
+            
         }
     }
     return pointCount;
