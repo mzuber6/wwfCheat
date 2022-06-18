@@ -823,10 +823,10 @@ void playToTable(string word, vector<vector<char> > * Table) {
     }
 }
 
-void givePossibilities(unordered_map<string, int> Dictionary, vector<vector<char> > Table) {
+void givePossibilities(unordered_map<string, int> Dictionary, vector<vector<char> > * Table) {
     
     vector<char> hand = getHand();
-    vector<string> playableWords = getPlayableWords(Dictionary, Table, hand);
+    vector<string> playableWords = getPlayableWords(Dictionary, *Table, hand);
     //vector<string> playableWords;
     //playableWords.push_back("didie08A<");
     string winningWord = "";
@@ -834,15 +834,15 @@ void givePossibilities(unordered_map<string, int> Dictionary, vector<vector<char
     int count = 0;
     cout << "Calculating word worth most points...\n";
     for(string word : playableWords) {
-        int tp = points(word, Table, hand);
+        int tp = points(word, *Table, hand);
         if(tp > count) {
             secondWord = winningWord;
             count = tp;
             winningWord = word;
         }
     }
-    playToTable(winningWord, &Table);
-    printTable(Table);
+    playToTable(winningWord, Table);
+    printTable(*Table);
     cout << "You should play: " << winningWord.substr(0, winningWord.length()-4) << " at "<< winningWord.substr(winningWord.length()-4, winningWord.length()) << "\n";
     cout << "For " << count << " points!\n";
     cout << "You can try " << secondWord.substr(0, secondWord.length()-4) << " at "<< secondWord.substr(secondWord.length()-4, secondWord.length()) << " if that doesn't work\n";
@@ -878,7 +878,7 @@ int main(int argc, const char * argv[]) {
         if (isUserTurn()) {
             enterMoves(&Table);
         }
-        givePossibilities(Dictionary, Table);
+        givePossibilities(Dictionary, &Table);
         cout << "Enter run to keep playing or q to end: ";
         cin >> name;
     }
